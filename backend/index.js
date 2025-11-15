@@ -1,9 +1,13 @@
 import express, { json } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import dotenv from "dotenv";
+import connectDB from "./utils/db.js";
+dotenv.config({});
+
 const app = express();
 
-//test the initial api 
+//test the initial api
 // app.get("/home", (req, res)=>{
 //   return res.status(200).json({
 //     message: "i am comming from backend",
@@ -23,7 +27,8 @@ const corsOption = {
 };
 app.use(cors(corsOption));
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`server is running on server https://localhost${PORT}`);//create server 
+  connectDB(); 
+  console.log(`server is running on server https://localhost${PORT}`); //create server
 });
