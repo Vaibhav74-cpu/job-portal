@@ -3,7 +3,7 @@
 // JWT = digital id card, a secure way to check if the user is logged in and who they are.
 import jwt from "jsonwebtoken";
 
-const isAuthenticated = async (req, res) => {
+const isAuthenticated = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     if (!token) {
@@ -13,6 +13,7 @@ const isAuthenticated = async (req, res) => {
       });
     }
 
+    //verify toke
     //if token is exist or authenticated so we convert into decode
     const decode = await jwt.verify(token, process.env.SECRET_KEY);
     if (!decode) {

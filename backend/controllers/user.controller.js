@@ -126,15 +126,18 @@ export const updateProfile = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, bio, skills } = req.body;
     // const file= req.file;
-    if (!fullname || !email || !phoneNumber || !bio || !skills) {
-      return res.status(400).json({
-        message: "something is missing",
-        success: false,
-      });
+    // if (!fullname || !email || !phoneNumber || !bio || !skills) { //if anyone of these field is empty so return error
+    //   return res.status(400).json({
+    //     message: "something is missing",
+    //     success: false,
+    //   });
+    // }
+
+    if (skills) {
+      skillsArray = skills.split(","); //convert sting skills into array format
     }
-    const skillsArray = skills.split(","); //convert sting skills into array format
     const userId = req.id; //check authenticate through middleware
-    let user = await user.findById(userId);
+    let user = await User.findById(userId);
 
     if (!user) {
       return res.status(400).json({
@@ -144,15 +147,15 @@ export const updateProfile = async (req, res) => {
     }
 
     //updating data here
-    (user.fullname = fullname),
-      (user.email = email),
-      (user.phoneNumber = phoneNumber),
-      (user.Profile.bio = bio),
-      (user.profile.skills = skillsArray);
+    if (fullname) user.fullname = fullname;
+    if (email) user.email = email;
+    if (phoneNumber) user.phoneNumber = phoneNumber;
+    if (bio) user.Profile.bio = bio;
+    if (skills) user.skills = skills;
 
     await user.save();
 
-    user = {
+    const userData = {
       _id: user._id,
       fullname: user.fullname,
       email: user.email,
@@ -163,7 +166,7 @@ export const updateProfile = async (req, res) => {
 
     return res.status(200).json({
       message: "profile updated succesfully",
-      user,
+      user: userData,
       success: true,
     });
   } catch (error) {
