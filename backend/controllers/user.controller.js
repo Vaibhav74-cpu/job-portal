@@ -112,7 +112,7 @@ export const login = async (req, res) => {
 //controller logout logic
 export const logout = async (req, res) => {
   try {
-    return res.status(400).cookie("token", "", { maxAge: 0 }).json({
+    return res.status(200).cookie("token", "", { maxAge: 0 }).json({
       message: "logout successfully",
       success: true,
     });
