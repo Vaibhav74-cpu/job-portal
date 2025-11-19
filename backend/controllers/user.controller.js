@@ -15,13 +15,13 @@ export const register = async (req, res) => {
     //check , is user already already ex ist by email so return error
     const user = await User.findOne({ email });
     if (user) {
-      return res.statu(400).json({
+      return res.status(400).json({
         message: "user is already exist",
         success: false,
       });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    await user.create({
+    await User.create({
       fullname,
       email,
       phoneNumber,
@@ -68,7 +68,7 @@ export const login = async (req, res) => {
     }
 
     //check role is correct or not
-    if (role === user.role) {
+    if (role != user.role) {
       return res.status(400).json({
         message: "Account does not exist with current role",
         success: false,
@@ -76,26 +76,26 @@ export const login = async (req, res) => {
     }
 
     const tokendata = {
-      userId: user_id,
+      userId: user._id,
     };
 
     const token = await jwt.sign(tokendata, process.env.SECRET_KEY, {
-      expiresIn: `1d`,
+      expiresIn: "1d",
     });
 
     user = {
-      _id: user_id,
+      _id: user._id,
       fullname: user.fullname,
       email: user.email,
       phoneNumber: user.phoneNumber,
       role: user.role,
-      Profile: user.profile,
+      profile: user.profile,
     };
 
     return res
       .status(200)
       .cookie("token", token, {
-        maxAge: 1 + 2 + 60 + 60 + 1000,
+        maxAge: 1 * 2 * 60 * 60 * 1000,
         httpsOnly: true,
         sameSite: "strict",
       })
