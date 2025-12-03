@@ -6,9 +6,10 @@ import {
 } from "@radix-ui/react-popover";
 import React from "react";
 import { Button } from "../ui/button";
+import { Link } from "react-router-dom";
 
 function Navbar() {
-  const user = true;
+  const user = false;
   return (
     <div className="bg-white">
       <div className="flex items-center justify-between mx-auto max-w-7xl h-16 px-28">
@@ -28,13 +29,13 @@ function Navbar() {
             {!user ? (
               <div className="flex gap-3">
                 <Button variant="outline" className="">
-                  Login
+                  <Link to="/login">Login</Link>
                 </Button>
                 <Button
                   variant="outline"
                   className="bg-yellow-600 hover:bg-yellow-800"
                 >
-                  SignUp
+                  <Link to="/signup">SignUp</Link>
                 </Button>
               </div>
             ) : (
