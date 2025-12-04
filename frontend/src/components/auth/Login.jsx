@@ -1,26 +1,75 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../shared/Navbar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
-import { Link } from "react-router-dom";
+import { data, Link, useNavigate } from "react-router-dom";
 import { RadioGroup } from "@radix-ui/react-radio-group";
 import { Button } from "../ui/button";
+import axios from "axios";
+import { USER_API_ENDPOINT } from "@/utils/constant";
+import { toast } from "sonner";
 
 function Login() {
+  const navigate = useNavigate();
+  const [input, setInput] = useState({
+    email: "",
+    password: "",
+    role: "",
+  });
+
+  const handleInput = (e) => {
+    setInput({ ...input, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`${USER_API_ENDPOINT}/login`,data, input, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+
+      if (res.data.success) {
+        navigate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
   return (
     <div>
       <Navbar />
       <div className="flex items-center justify-center mx-auto max-w-7xl">
-        <form action="" className="w-1/2 border border-gray-200 rounded-md p-4 my-10">
-        <h1 className="font-bold text-xl mb-5">Login </h1>
+        <form
+          onSubmit={handleSubmit}
+          className="w-1/2 border border-gray-200 rounded-xl p-4 my-10  bg-gray-500"
+        >
+          <h1 className="font-bold text-xl mb-5">Login </h1>
           <div>
             <Label>Email</Label>
-            <Input type="text" placeholder="Enter email" />
-          
+            <Input
+              type="email"
+              placeholder="Enter email"
+              className="my-2"
+              name="email"
+              value={input.email}
+              onChange={handleInput}
+            />
           </div>
           <div>
             <Label>Password</Label>
-            <Input type="number" placeholder="Enter password" />
+            <Input
+              type="password"
+              name="password"
+              placeholder="Enter password"
+              className="my-2"
+              value={input.password}
+              onChange={handleInput}
+            />
           </div>
           <div>
             <Label>Role</Label>
@@ -30,7 +79,9 @@ function Login() {
                   type="radio"
                   value="student"
                   name="role"
+                  checked={input.role === "student"}
                   className="cursor-pointer"
+                  onChange={handleInput}
                 />
                 <Label htmlFor="option-one">Student</Label>
               </div>
@@ -39,6 +90,8 @@ function Login() {
                   type="radio"
                   name="role"
                   value="recruiter"
+                  checked={input.role === "recruiter"}
+                  onChange={handleInput}
                   className="cursor-pointer"
                 />
                 <Label htmlFor="option-two">Recruiter</Label>

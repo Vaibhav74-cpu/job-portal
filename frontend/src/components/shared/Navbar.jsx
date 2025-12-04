@@ -16,7 +16,7 @@ function Navbar() {
         <div>
           {" "}
           <h1 className="text-2xl font-bold">
-            Jobs<span className="text-[#f83002]">Portal</span>
+            Job<span className="text-[#f83002]">Hunt</span>
           </h1>
         </div>
         <div>
