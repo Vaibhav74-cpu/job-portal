@@ -65,7 +65,7 @@ function Signup() {
       <div className="flex items-center justify-center mx-auto max-w-7xl">
         <form
           onSubmit={handleSubmit}
-          className="w-1/2 border border-gray-200 rounded-xl p-4 my-10  bg-gray-500"
+          className="w-1/3 border border-gray-200 rounded-xl p-4 my-10  bg-gray-500"
         >
           <h1 className="font-bold text-xl mb-5">Sign Up</h1>
           <div>
