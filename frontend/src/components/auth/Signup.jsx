@@ -141,7 +141,7 @@ function Signup() {
             <div className="flex items-center my-2">
               <Label>Profile </Label>
               <Input
-                accept="image/*"
+                accept="/*"
                 type="file"
                 className="cursor-pointer"
                 name="file"

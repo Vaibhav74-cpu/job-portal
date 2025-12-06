@@ -24,12 +24,21 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${USER_API_ENDPOINT}/login`,data, input, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        `${USER_API_ENDPOINT}/login`,
+        input,
+        // {
+        //   email: input.email,
+        //   password: input.password,
+        //   role: input.role,
+        // },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
       if (res.data.success) {
         navigate("/");
