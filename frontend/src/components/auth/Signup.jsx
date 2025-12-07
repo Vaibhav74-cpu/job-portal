@@ -8,9 +8,16 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { USER_API_ENDPOINT } from "@/utils/constant";
 import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "@/redux/authSlice";
+// import { store } from "@/redux/store";
+import { Loader2 } from "lucide-react";
+import { store } from "@/redux/store";
 
 function Signup() {
+  const { loading } = useSelector((store) => store.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [input, setInput] = useState({
     fullname: "",
     email: "",
@@ -40,6 +47,8 @@ function Signup() {
       formData.append("file", input.file);
     }
     try {
+      // dispatch(setLoading(true));
+      dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_ENDPOINT}/register`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -56,6 +65,8 @@ function Signup() {
         error.response?.data?.message ||
           "Something went wrong. Please try again."
       );
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -149,10 +160,17 @@ function Signup() {
               />
             </div>
           </div>
+          {loading ? (
+            <Button className="w-full">
+              <Loader2 className="w-full h-4 animate-spin" />
+              Please wait
+            </Button>
+          ) : (
+            <Button type="submit" className="w-full gap-2">
+              SignUp
+            </Button>
+          )}
 
-          <Button type="submit" className="w-full gap-2">
-            SignUp
-          </Button>
           <span className="text-sm">
             Already have an account?{" "}
             <Link to="/login" className="text-blue-600 ">

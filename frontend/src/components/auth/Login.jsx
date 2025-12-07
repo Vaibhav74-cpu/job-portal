@@ -8,9 +8,15 @@ import { Button } from "../ui/button";
 import axios from "axios";
 import { USER_API_ENDPOINT } from "@/utils/constant";
 import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "@/redux/authSlice";
+// import { store } from "@/redux/store";
+import { Loader2 } from "lucide-react";
 
 function Login() {
+  const { loading } = useSelector((store) => store.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -24,6 +30,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      dispatch(setLoading(true));
       const res = await axios.post(
         `${USER_API_ENDPOINT}/login`,
         input,
@@ -47,6 +54,8 @@ function Login() {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
   return (
@@ -107,9 +116,16 @@ function Login() {
               </div>
             </RadioGroup>
           </div>
-          <Button type="submit" className="w-full">
-            Login
-          </Button>
+          {loading ? (
+            <Button className="w-full">
+              <Loader2 className="h-2 mr-2 w-full animate-spin" /> Please wait
+            </Button>
+          ) : (
+            <Button type="submit" className="w-full">
+              Login
+            </Button>
+          )}
+
           <span className="text-sm">
             Don't have an account?{" "}
             <Link to="/signup" className="text-blue-500">
