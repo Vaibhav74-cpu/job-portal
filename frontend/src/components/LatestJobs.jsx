@@ -8,7 +8,7 @@ function LatestJobs() {
       <h1 className="text-4xl font-bold">
         <span className="text-yellow-600">Latest & Top</span> Job Opening
       </h1>
-      <div className="grid grid-cols-3 my-3 h-2 gap-3">
+      <div className="grid grid-cols-3 my-3 gap-3">
         {randomJobs.slice(0, 6).map((item, index) => (
           <LatestJobCards key={item} />
         ))}
