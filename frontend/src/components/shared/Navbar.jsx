@@ -7,6 +7,7 @@ import {
 import React from "react";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
+import { LogOutIcon, User2Icon } from "lucide-react";
 
 function Navbar() {
   const user = false;
@@ -71,13 +72,13 @@ function Navbar() {
 
                   <div className="flex gap-3 text-gray-400">
                     <Button variant="link" className="gap-2">
-                      View Profile
+                      <User2Icon /> View Profile
                     </Button>
 
                     <div className="flex w-fit items-center gap-2 cursor-pointer">
                       {" "}
                       <Button variant="link" className="h-4 w-4">
-                        Logout
+                        <LogOutIcon /> Logout
                       </Button>
                     </div>
                   </div>
