@@ -9,7 +9,7 @@ function Footer() {
           <div className="mb-4 md:mb-0">
             <h2 className="text-xl font-bold">Job Hunt</h2>
             <p className="text-sm text-gray-600">
-              © 2024 Your Company. All rights reserved.
+              © 2026 Your Company. All rights reserved.
             </p>
           </div>
 
