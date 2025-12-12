@@ -3,8 +3,11 @@ import { Badge } from "@/components/ui/badge";
 import React from "react";
 import { Button } from "./ui/button";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
+import { useNavigate } from "react-router-dom";
 
 function Job() {
+  const navigate = useNavigate();
+  const jobId = "kahf";
   return (
     <div className="border border-gray-100 bg-white shadow-xl rounded-md">
       <div className="flex items-center justify-between m-2">
@@ -48,7 +51,11 @@ function Job() {
         </Badge>
       </div>
       <div className="flex items-center gap-4 m-2">
-        <Button variant="outline" className="h-8">
+        <Button
+          variant="outline"
+          className="h-8"
+          onClick={() => navigate(`/discription/${jobId}`)}
+        >
           Details
         </Button>
         <Button className="bg-violet-600 text-sm px-3 py-1 h-8">
