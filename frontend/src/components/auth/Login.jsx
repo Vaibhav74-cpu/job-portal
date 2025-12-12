@@ -9,9 +9,10 @@ import axios from "axios";
 import { USER_API_ENDPOINT } from "@/utils/constant";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoading } from "@/redux/authSlice";
+import { setLoading, setUser } from "@/redux/authSlice";
 // import { store } from "@/redux/store";
 import { Loader2 } from "lucide-react";
+// import { store } from "@/redux/store";
 
 function Login() {
   const { loading } = useSelector((store) => store.auth);
@@ -48,6 +49,7 @@ function Login() {
       );
 
       if (res.data.success) {
+        dispatch(setUser(res.data.user));
         navigate("/");
         toast.success(res.data.message);
       }
@@ -61,7 +63,7 @@ function Login() {
   return (
     <div>
       <Navbar />
-      <div className="flex items-center justify-center mx-auto max-w-7xl">
+      <div className="flex items-center justify-center mx-auto max-w-7xl ">
         <form
           onSubmit={handleSubmit}
           className="w-1/3 border border-gray-200 rounded-xl p-4 my-10  bg-gray-500"

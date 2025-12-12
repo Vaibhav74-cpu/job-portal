@@ -8,9 +8,12 @@ import React from "react";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { LogOutIcon, User2Icon } from "lucide-react";
+import { useSelector } from "react-redux";
+// import { store } from "@/redux/store";
 
 function Navbar() {
-  const user = false;
+  // const user = false;
+  const { user } = useSelector((store) => store.auth);
   return (
     <div className="bg-white">
       <div className="flex items-center justify-between mx-auto max-w-7xl h-16 px-28">
@@ -78,7 +81,7 @@ function Navbar() {
 
                   <div className="flex gap-3 text-gray-400">
                     <Button variant="link" className="gap-2">
-                      <User2Icon /> View Profile
+                      <User2Icon /> <Link to="/profile">View Profile</Link>
                     </Button>
 
                     <div className="flex w-fit items-center gap-2 cursor-pointer">

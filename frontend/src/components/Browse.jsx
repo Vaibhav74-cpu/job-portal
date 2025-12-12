@@ -16,7 +16,7 @@ function Browse() {
         <div className="grid grid-cols-3 gap-4 my-4">
           {randomJob.map((item, index) => {
             return (
-              <div>
+              <div key={item}>
                 <Job />
               </div>
             );
