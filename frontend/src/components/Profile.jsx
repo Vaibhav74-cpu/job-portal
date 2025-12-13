@@ -8,12 +8,14 @@ import { Label } from "@radix-ui/react-label";
 import { Badge } from "@/components/ui/badge";
 import AppliedJobTable from "./AppliedJobTable";
 import UpdateProfileDialog from "./UpdateProfileDialog";
+import { useSelector } from "react-redux";
 
 const skills = [];
-const isResume = false;
+const isResume = true;
 
 function Profile() {
   const [open, setOpen] = useState(false);
+  const { user } = useSelector((store) => store.auth);
   return (
     <div>
       <Navbar />
@@ -27,11 +29,8 @@ function Profile() {
                 </Avatar>
               </div>
               <div className="my-4">
-                <h1 className="font-bold text-xl">Full Name</h1>
-                <p className="text-gray-500 text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Consectetur, blanditiis!
-                </p>
+                <h1 className="font-bold text-xl">{user?.fullname}</h1>
+                <p className="text-gray-500 text-sm">{user?.profile?.bio}</p>
               </div>
             </div>
             <div className="m-2">
@@ -43,18 +42,20 @@ function Profile() {
           <div className="m-4 mt-1">
             <div className="flex gap-4 my-2">
               <Mail />
-              <Label className="text-sm">borkarv908@gmail.com</Label>
+              <Label className="text-sm">{user?.email}</Label>
             </div>
             <div className="flex gap-4 my-3">
               <Contact />
-              <Label className="text-sm">91-93591-48868</Label>
+              <Label className="text-sm">{user?.phoneNumber}</Label>
             </div>
           </div>
           <div className="m-4">
             <Label className="text-lg font-bold">Skills</Label>
             <div className="flex gap-2 mt-2">
-              {skills.length !== 0 ? (
-                skills.map((item, index) => <Badge key={index}>{item}</Badge>)
+              {user?.profile?.skills.length !== 0 ? (
+                user?.profile?.skills.map((item, index) => (
+                  <Badge key={index}>{item}</Badge>
+                ))
               ) : (
                 <span className="text-gray-500 text-sm">NA</span>
               )}
@@ -65,11 +66,12 @@ function Profile() {
             <div>
               {isResume ? (
                 <a
-                  href="http://google.con"
+                  href={user?.profile?.resume}
                   className="hover:underline text-blue-600 cursor-pointer w-full"
-                  target="blank"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  vaibhav borkar
+                  {user?.profile?.resumeOriginalName}
                 </a>
               ) : (
                 <span className="text-gray-500 text-sm">NA</span>

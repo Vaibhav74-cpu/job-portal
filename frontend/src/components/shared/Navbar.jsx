@@ -6,14 +6,36 @@ import {
 } from "@radix-ui/react-popover";
 import React from "react";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LogOutIcon, User2Icon } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
+import axios from "axios";
+import { USER_API_ENDPOINT } from "@/utils/constant";
+import { setUser } from "@/redux/authSlice";
 // import { store } from "@/redux/store";
 
 function Navbar() {
   // const user = false;
   const { user } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
+  const naviagate = useNavigate();
+
+  const logoutHandler = async (e) => {
+    try {
+      const res = await axios.get(`${USER_API_ENDPOINT}/logout`, {
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        dispatch(setUser(null));
+        naviagate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
+  };
   return (
     <div className="bg-white">
       <div className="flex items-center justify-between mx-auto max-w-7xl h-16 px-28">
@@ -86,7 +108,11 @@ function Navbar() {
 
                     <div className="flex w-fit items-center gap-2 cursor-pointer">
                       {" "}
-                      <Button variant="link" className="h-4 w-4">
+                      <Button
+                        variant="link"
+                        className="h-4 w-4"
+                        onClick={logoutHandler}
+                      >
                         <LogOutIcon /> Logout
                       </Button>
                     </div>

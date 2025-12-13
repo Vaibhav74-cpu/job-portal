@@ -1,17 +1,6 @@
-// import { Dialog, DialogContent, DialogTitle } from "@radix-ui/react-dialog";
-// import { DialogFooter, DialogHeader } from "./ui/dialog";
-
 import React, { useState } from "react";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogHeader,
-//   DialogTitle,
-//   DialogFooter,
-// } from "@/components/ui/dialog";
-// import { DialogTrigger } from "@/components/ui/dialog";
 
 import {
   Dialog,
@@ -66,6 +55,7 @@ function UpdateProfileDialog({ open, setOpen }) {
     }
 
     try {
+      setLoading(true);
       const res = await axios.post(
         `${USER_API_ENDPOINT}/profile/update`,
         formdata,
@@ -83,6 +73,8 @@ function UpdateProfileDialog({ open, setOpen }) {
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);
+    } finally {
+      setLoading(false);
     }
     setOpen(false);
     console.log(input);
