@@ -8,8 +8,14 @@ import companyRoute from "./routes/company.route.js";
 import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
 dotenv.config({});
-
 const app = express();
+
+// app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:5173", 
+  credentials: true,               
+};
+app.use(cors(corsOptions));
 
 //test the initial api
 // app.get("/home", (req, res)=>{
@@ -26,10 +32,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const corsOption = {
-  origin: "http//localhost:5173",
+  origin: "http://localhost:5173",
   Credentials: true,
 };
 app.use(cors(corsOption));
+// app.options("*", cors({
+//   origin: "http://localhost:5173",
+//   credentials: true
+// }));
 
 const PORT = process.env.PORT || 3000;
 

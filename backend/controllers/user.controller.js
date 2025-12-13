@@ -1,10 +1,13 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import getDataUri from "../utils/datauri.js";
+import cloudinary from "../utils/cloudinary.js";
 
 export const register = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, password, role } = req.body;
+
     if (!fullname || !email || !phoneNumber || !password || !role) {
       //if one from this field  is empty so return error
       return res.status(400).json({
@@ -42,6 +45,8 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
+    // console.log(email, password, role);
+
     if (!email || !password || !role) {
       return res.status(400).json({
         message: "something is missing",
@@ -125,14 +130,24 @@ export const logout = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, bio, skills } = req.body;
-    // const file= req.file;
+    // console.log(fullname, email, phoneNumber, bio, skills);
+
+    // cloudinary
+    const file = req.file;
+    const fileUri = getDataUri(file);
+    const clouedResponse = await cloudinary.uploader.upload(fileUri.content, {
+      folder: "resumes",
+      resource_type: "auto",
+      format: "pdf",
+    });
+
     // if (!fullname || !email || !phoneNumber || !bio || !skills) { //if anyone of these field is empty so return error
     //   return res.status(400).json({
     //     message: "something is missing",
     //     success: false,
     //   });
     // }
-
+    let skillsArray = [];
     if (skills) {
       skillsArray = skills.split(","); //convert sting skills into array format
     }
@@ -150,8 +165,14 @@ export const updateProfile = async (req, res) => {
     if (fullname) user.fullname = fullname;
     if (email) user.email = email;
     if (phoneNumber) user.phoneNumber = phoneNumber;
-    if (bio) user.Profile.bio = bio;
-    if (skills) user.skills = skills;
+    if (bio) user.profile.bio = bio;
+    if (skills) user.profile.skills = skillsArray;
+
+    //resume setup here
+    if (clouedResponse) {
+      user.profile.resume = clouedResponse.secure_url;
+      user.profile.resumeOriginalName = file.originalname;
+    }
 
     await user.save();
 
