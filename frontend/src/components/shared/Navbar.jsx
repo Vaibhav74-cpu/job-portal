@@ -38,7 +38,7 @@ function Navbar() {
   };
   return (
     <div className="bg-white">
-      <div className="flex items-center justify-between mx-auto max-w-7xl h-16 px-28">
+      <div className="flex items-center justify-between mx-auto max-w-7xl ">
         <div>
           {" "}
           <h1 className="text-2xl font-bold">
@@ -75,8 +75,9 @@ function Navbar() {
                 <PopoverTrigger asChild>
                   <Avatar className="h-10 w-10 cursor-pointer rounded-full border">
                     <AvatarImage
-                      src="https://github.com/shadcn.png"
+                      src={user?.profile?.profilePhoto}
                       alt="@shadcn"
+                      className="rounded-full h-10 w-10"
                     />
                     <AvatarFallback>VB</AvatarFallback>
                   </Avatar>
@@ -88,15 +89,15 @@ function Navbar() {
                   <div className="flex items-center gap-3 pb-3 border-b">
                     <Avatar className="h-11 w-11 rounded-full border">
                       <AvatarImage
-                        src="https://github.com/shadcn.png"
+                        src={user?.profile?.profilePhoto}
                         alt="@shadcn"
                       />
                     </Avatar>
 
                     <div>
-                      <h3 className="font-semibold">vaibhav borkar</h3>
+                      <h3 className="font-semibold">{user?.fullname}</h3>
                       <p className="text-sm text-gray-500">
-                        Lorem ipsum dolor sit.
+                        {user?.profile?.bio}
                       </p>
                     </div>
                   </div>

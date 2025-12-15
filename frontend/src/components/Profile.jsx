@@ -19,7 +19,7 @@ function Profile() {
   return (
     <div>
       <Navbar />
-      <div className="pl-28 pr-28  bg-white  max-w-4xl mx-auto">
+      <div className=" bg-white  max-w-4xl mx-auto mt-6">
         <div className="border border-gray-300 rounded-lg">
           <div className="flex justify-between  ">
             <div className="flex gap-2">
