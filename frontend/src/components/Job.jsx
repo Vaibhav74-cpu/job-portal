@@ -8,10 +8,18 @@ import { useNavigate } from "react-router-dom";
 function Job({ job }) {
   const navigate = useNavigate();
   // const jobId = "kahf";
+
+  const dayAgo = (mongodbTime) => {
+    const createdAt = new Date(mongodbTime);
+    const currentTime = new Date();
+    const timeDifference = currentTime - createdAt;
+    return Math.floor(timeDifference / (1000 * 24 * 60 * 60));
+  };
+
   return (
     <div className="border border-gray-100 bg-white shadow-xl rounded-md">
       <div className="flex items-center justify-between m-2">
-        <p className="text-sm text-gray-500">2 Days ago</p>
+        <p className="text-sm text-gray-500">{dayAgo(job?.createdAt) === 0 ? 'Today' : `${ dayAgo(job?.createdAt)} days ago`}</p>
         <Button
           className="rounded-full border-white"
           variant="outline"
