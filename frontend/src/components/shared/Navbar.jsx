@@ -48,15 +48,28 @@ function Navbar() {
         <div>
           <div className="flex gap-5">
             <ul className="flex items-center gap-5 font-medium ">
-              <li>
-                <Link to="/"> Home</Link>
-              </li>
-              <li>
-                <Link to="/jobs">Jobs</Link>
-              </li>
-              <li>
-                <Link to="/browse">Browse</Link>
-              </li>
+              {user && user.role === "student" ? (
+                <>
+                  <li>
+                    <Link to="/"> Home</Link>
+                  </li>
+                  <li>
+                    <Link to="/jobs">Jobs</Link>
+                  </li>
+                  <li>
+                    <Link to="/browse">Browse</Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <Link to="/admin/companies">Companies</Link>{" "}
+                  </li>
+                  <li>
+                    <Link to="/admin/jobs">Jobs</Link>{" "}
+                  </li>
+                </>
+              )}
             </ul>
             {!user ? (
               <div className="flex gap-3">
@@ -103,15 +116,19 @@ function Navbar() {
                   </div>
 
                   <div className="flex gap-3 text-gray-400">
-                    <Button variant="link" className="gap-2">
-                      <User2Icon /> <Link to="/profile">View Profile</Link>
-                    </Button>
+                    {user && user.role === "student" && (
+                      <>
+                        <Button variant="link" className="gap-2">
+                          <User2Icon /> <Link to="/profile">View Profile</Link>
+                        </Button>
+                      </>
+                    )}
 
                     <div className="flex w-fit items-center gap-2 cursor-pointer">
                       {" "}
                       <Button
                         variant="link"
-                        className="h-4 w-4"
+                        className="h-4 m-3"
                         onClick={logoutHandler}
                       >
                         <LogOutIcon /> Logout
