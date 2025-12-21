@@ -13,8 +13,11 @@ import { Popover } from "../ui/popover";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { Edit2, MoreHorizontal } from "lucide-react";
 import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
+import { useSelector } from "react-redux";
+import { store } from "@/redux/store";
 
 function CompaniesTable() {
+  const { companies } = useSelector((store) => store.company);
   return (
     <div>
       <Table className="max-w-6xl">
@@ -28,26 +31,40 @@ function CompaniesTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableCell>
-            <Avatar>
-              <AvatarImage
-                className="h-14 w-14"
-                size="icon"
-                src="https://cdn.logojoy.com/wp-content/uploads/2018/05/01104813/1268-768x591.png"
-              />
-            </Avatar>
-          </TableCell>
-          <TableCell>ICIS</TableCell>
-          <TableCell>04-01-04</TableCell>
-          <TableCell className="text-right">
-            <Popover>
-              <PopoverTrigger><MoreHorizontal/></PopoverTrigger>
-              <PopoverContent >
-                <div className="flex gap-3 mt-3 items-center cursor-pointer"><Edit2/>
-                <span>Edit</span></div>
-              </PopoverContent>
-            </Popover>
-          </TableCell>
+          {companies.length < 0 ? (
+            <span>You havn't register company yet</span>
+          ) : (
+            companies.map((company) => (
+              <>
+                <TableRow key={company._id}>
+                  <TableCell>
+                    <Avatar>
+                      <AvatarImage
+                        className="h-14 w-14"
+                        size="icon"
+                        src={company.logo}
+                      />
+                    </Avatar>
+                  </TableCell>
+                  <TableCell>{company.name}</TableCell>
+                  <TableCell>{company.createdAt.split('T')[0]}</TableCell>
+                  <TableCell className="text-right">
+                    <Popover>
+                      <PopoverTrigger>
+                        <MoreHorizontal />
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        <div className="flex gap-3 mt-3 items-center cursor-pointer">
+                          <Edit2 />
+                          <span>Edit</span>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  </TableCell>
+                </TableRow>
+              </>
+            ))
+          )}
         </TableBody>
       </Table>
     </div>
