@@ -14,7 +14,7 @@ function Home() {
   useGetAllJobs();
 
   useEffect(() => {
-    if (user.role === "recruiter") {
+    if (user && user.role === "recruiter") {
       naviagate("/admin/companies");
     }
   }, []);

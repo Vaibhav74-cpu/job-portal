@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../shared/Navbar";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
@@ -38,6 +38,7 @@ function CompanyCreate() {
       console.log(error);
     }
   };
+
   return (
     <div>
       <Navbar />
@@ -66,7 +67,7 @@ function CompanyCreate() {
           >
             Cancel
           </Button>
-          <Button onClick={createNewCompany} >Continue</Button>
+          <Button onClick={createNewCompany}>Continue</Button>
         </div>
       </div>
     </div>
