@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -15,9 +15,27 @@ import { Edit2, MoreHorizontal } from "lucide-react";
 import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { useSelector } from "react-redux";
 import { store } from "@/redux/store";
+import { useNavigate } from "react-router-dom";
 
 function CompaniesTable() {
-  const { companies } = useSelector((store) => store.company);
+  const navigate = useNavigate();
+  const { companies, searchCompanyByText } = useSelector(
+    (store) => store.company
+  );
+  const [filterCompany, setFilterCompany] = useState(companies);
+  useEffect(() => {
+    const filteredCompanpy =
+      companies.length >= 0 &&
+      companies.filter((company) => {
+        if (!searchCompanyByText) {
+          return true;
+        }
+        return company?.name
+          ?.toLowerCase()
+          .includes(searchCompanyByText.toLowerCase());
+      });
+    setFilterCompany(filteredCompanpy);
+  }, [searchCompanyByText, companies]);
   return (
     <div>
       <Table className="max-w-6xl">
@@ -34,7 +52,7 @@ function CompaniesTable() {
           {companies.length < 0 ? (
             <span>You havn't register company yet</span>
           ) : (
-            companies.map((company) => (
+            filterCompany.map((company) => (
               <>
                 <TableRow key={company._id}>
                   <TableCell>
@@ -47,14 +65,19 @@ function CompaniesTable() {
                     </Avatar>
                   </TableCell>
                   <TableCell>{company.name}</TableCell>
-                  <TableCell>{company.createdAt.split('T')[0]}</TableCell>
+                  <TableCell>{company.createdAt.split("T")[0]}</TableCell>
                   <TableCell className="text-right">
                     <Popover>
                       <PopoverTrigger>
                         <MoreHorizontal />
                       </PopoverTrigger>
                       <PopoverContent>
-                        <div className="flex gap-3 mt-3 items-center cursor-pointer">
+                        <div
+                          onClick={() =>
+                            navigate(`/admin/companies/${company._id}`)
+                          }
+                          className="flex gap-3 mt-3 items-center cursor-pointer"
+                        >
                           <Edit2 />
                           <span>Edit</span>
                         </div>
