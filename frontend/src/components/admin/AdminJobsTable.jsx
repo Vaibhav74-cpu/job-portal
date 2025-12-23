@@ -30,10 +30,15 @@ function AdminJobsTable() {
         if (!searchJobByText) {
           return true;
         }
-        return job?.title?.toLowerCase().includes(searchJobByText.toLowerCase());
+        return (
+          job?.title?.toLowerCase().includes(searchJobByText.toLowerCase()) ||
+          job?.company?.name
+            ?.toLowerCase()
+            .includes(searchJobByText.toLowerCase())
+        );
       });
     setFilterJob(filterdJobs);
-  }, [allAdminJobs]);
+  }, [allAdminJobs, searchJobByText]);
   return (
     <div>
       <Table>
