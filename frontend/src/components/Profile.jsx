@@ -25,7 +25,7 @@ function Profile() {
             <div className="flex gap-2">
               <div className="h-20 w-20 m-2">
                 <Avatar>
-                  <AvatarImage src="https://cdn.logojoy.com/wp-content/uploads/2018/05/01104813/1268-768x591.png" />
+                  <AvatarImage src={user?.profile?.profilePhoto} />
                 </Avatar>
               </div>
               <div className="my-4">

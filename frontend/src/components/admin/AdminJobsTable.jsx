@@ -14,7 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@radix-ui/react-popover";
-import { Edit2, MoreHorizontal } from "lucide-react";
+import { Edit2, Eye, MoreHorizontal } from "lucide-react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -66,13 +66,17 @@ function AdminJobsTable() {
                       <PopoverTrigger>
                         <MoreHorizontal />
                       </PopoverTrigger>
-                      <PopoverContent>
+                      <PopoverContent className="bg-white border border-gray-200 shadow-lg rounded-md p-2">
                         <div
                           onClick={() => navigate(`/admin/jobs/${job._id}`)}
-                          className="flex items-center gap-2 cursor-pointer mt-3"
+                          className="flex items-center gap-2 cursor-pointer mt-1 font-semibold"
                         >
                           <Edit2 />
                           <span>Edit</span>
+                        </div>
+                        <div className="flex cursor-pointer gap-2 items-center my-1" onClick={()=>navigate(`/admin/jobs/${job?._id}/applicants`)}>
+                          <Eye />
+                          <span className="font-semibold">Applicants</span>
                         </div>
                       </PopoverContent>
                     </Popover>
