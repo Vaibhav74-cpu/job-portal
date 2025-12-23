@@ -6,8 +6,10 @@ import AdminJobsTable from "./AdminJobsTable";
 import useGetAllAdminJobs from "@/hooks/useGetAllAdminJobs";
 import { useDispatch } from "react-redux";
 import { setSearchJobByText } from "@/redux/jobSlice";
+import { useNavigate } from "react-router-dom";
 
 function AdminJobs() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   useGetAllAdminJobs();
   const [input, setInput] = useState("");
@@ -24,7 +26,7 @@ function AdminJobs() {
             className="max-w-48 font-semibold"
             onChange={(e) => setInput(e.target.value)}
           />
-          <Button>New Jobs</Button>
+          <Button onClick={()=>navigate('/admin/jobs/create')}>New Jobs</Button>
         </div>
         <AdminJobsTable />
       </div>

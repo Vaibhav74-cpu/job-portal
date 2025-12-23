@@ -33,7 +33,7 @@ function Job({ job }) {
         <div className="flex items-center gap-2">
           <Button variant="outline" size="icon" className="p-0 border-white">
             <Avatar>
-              <AvatarImage src="https://cdn.logojoy.com/wp-content/uploads/2018/05/01104813/1268-768x591.png" />
+              <AvatarImage src={job?.company?.logo} />
             </Avatar>
           </Button>
           <div className=" ">
