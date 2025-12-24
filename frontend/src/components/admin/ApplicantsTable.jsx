@@ -22,14 +22,14 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const shortlist = ["Accepted", "Rejected"];
 function ApplicantsTable() {
-  const params = useParams();
+  // const params = useParams();
   const navigate = useNavigate();
   const { applicants } = useSelector((store) => store.application);
   // console.log(applicants);
 
   const statusHandler = async (status, id) => {
     try {
-      axios.defaults.withCredentials = true;
+      // axios.defaults.withCredentials = true;
       const res = await axios.post(
         `${APPLICATION_API_ENDPOINT}/status/${id}/update`,
         { status },
