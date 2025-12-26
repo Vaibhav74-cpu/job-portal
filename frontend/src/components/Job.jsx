@@ -4,7 +4,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { useNavigate } from "react-router-dom";
-
+import { motion } from "framer-motion";
 function Job({ job }) {
   const navigate = useNavigate();
   // const jobId = "kahf";
@@ -19,7 +19,11 @@ function Job({ job }) {
   return (
     <div className="border border-gray-100 bg-white shadow-xl rounded-md">
       <div className="flex items-center justify-between m-2">
-        <p className="text-sm text-gray-500">{dayAgo(job?.createdAt) === 0 ? 'Today' : `${ dayAgo(job?.createdAt)} days ago`}</p>
+        <p className="text-sm text-gray-500">
+          {dayAgo(job?.createdAt) === 0
+            ? "Today"
+            : `${dayAgo(job?.createdAt)} days ago`}
+        </p>
         <Button
           className="rounded-full border-white"
           variant="outline"
@@ -57,6 +61,8 @@ function Job({ job }) {
       </div>
       <div className="flex items-center gap-4 m-2">
         <Button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           variant="outline"
           className="h-8"
           onClick={() => navigate(`/discription/${job?._id}`)}

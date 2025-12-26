@@ -1,10 +1,15 @@
 // import { Badge } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function LatestJobCards({ job }) {
+  const navigate=useNavigate()
   return (
-    <div className="cursor-pointer shadow-xl border border-gray-100 rounded-md bg-white p-5 mt-3">
+    <div
+      className="cursor-pointer shadow-xl border border-gray-100 rounded-md bg-white p-5 mt-3"
+      onClick={() => navigate(`discription/${job._id}`)}
+    >
       <div>
         <h1 className="font-medium text-lg">{job?.company?.name}</h1>
         <p className="text-gray-500">India</p>

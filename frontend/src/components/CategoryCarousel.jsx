@@ -7,6 +7,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "./ui/carousel";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setSearchText } from "@/redux/jobSlice";
 // import {
 //   Carousel,
 //   CarouselContent,
@@ -23,6 +26,12 @@ const category = [
   "Flutter developer",
 ];
 function CategoryCarousel() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const searchHandler = (text) => {
+    dispatch(setSearchText(text));
+    navigate("/browse");
+  };
   return (
     <div>
       <Carousel className="w-full max-w-xl mx-auto my-20">
@@ -32,7 +41,11 @@ function CategoryCarousel() {
               key={cat}
               className="md:basis-1/2  lg:basis-1/3  flex justify-center"
             >
-              <Button className="rounded-full" variant="outline">
+              <Button
+                onClick={()=>searchHandler(cat)}
+                className="rounded-full"
+                variant="outline"
+              >
                 {cat}
               </Button>
             </CarouselItem>

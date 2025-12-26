@@ -1,9 +1,11 @@
 import React from "react";
 import LatestJobCards from "./LatestJobCards";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 // const randomJobs = [1, 2, 3, 4, 5, 6, 7, 8];
 function LatestJobs() {
+  const navigate=useNavigate()
   const { allJobs } = useSelector((store) => store.job); //fetch jobs from redux store
   return (
     <div className="max-w-7xl pl-28 pr-28 mx-auto my-20">
