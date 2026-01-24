@@ -1,4 +1,7 @@
+import { rmSync } from "fs";
 import { Company } from "../models/company.model.js";
+import cloudinary from "../utils/cloudinary.js";
+import getDataUri from "../utils/datauri.js";
 
 //creating or register the company
 export const registerCompany = async (req, res) => {
@@ -31,7 +34,8 @@ export const registerCompany = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    return res.status(400).json({ error });
   }
 };
 
@@ -59,7 +63,7 @@ export const getCompany = async (req, res) => {
 export const getCompanyById = async (req, res) => {
   try {
     const companyId = req.params.id;
-    const company = await Company.findById( companyId );
+    const company = await Company.findById(companyId);
     if (!company) {
       return res.status(404).json({
         message: "company not found",
@@ -79,9 +83,16 @@ export const getCompanyById = async (req, res) => {
 export const updateCompany = async (req, res) => {
   try {
     const { name, description, website, location } = req.body;
+    // console.log(name, description, website, location);
     const file = req.file;
+    // console.log(file);
 
-    const updateData = { name, description, website, location };
+    const fileUri = getDataUri(file);
+    const cloudinaryResponse = await cloudinary.uploader.upload(
+      fileUri.content,
+    );
+    const logo = cloudinaryResponse.secure_url;
+    const updateData = { name, description, website, location, logo };
     const company = await Company.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
     });
@@ -96,6 +107,10 @@ export const updateCompany = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    return res.status(500).json({
+      message: "error occur while updating company",
+      success: false,
+    });
   }
 };

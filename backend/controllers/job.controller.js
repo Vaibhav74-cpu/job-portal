@@ -51,7 +51,10 @@ export const postJob = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    return res.status(400).json({
+      message: "Failed to creating new job",
+    });
   }
 };
 
@@ -89,7 +92,9 @@ export const getAllJobs = async (req, res) => {
 //get job by id
 export const getjobById = async (req, res) => {
   const jobId = req.params.id;
-  const job = await Job.findById(jobId);
+  const job = await Job.findById(jobId).populate({
+    path: "applications",
+  });
   if (!job) {
     return res.status(400).json({
       message: "job not fiund by id",
@@ -102,7 +107,10 @@ export const getjobById = async (req, res) => {
 //Admin create job till now
 export const adminJobs = async (req, res) => {
   const adminId = req.id;
-  const jobs = await Job.find({ created_by: adminId });
+  const jobs = await Job.find({ created_by: adminId }).populate({
+    path: "company",
+    createdAt: -1,
+  });
   if (!jobs) {
     return res.status(400).json({
       message: "job not fiund by id",
@@ -112,18 +120,4 @@ export const adminJobs = async (req, res) => {
   return res.status(200).json({ jobs, success: true });
 };
 
-/**
- 
-{
-  "title":"frontend dev",
-  "description":"i require frontend dev",
-  "requirements":"react , js",
-  "salary":25000,
-  "jobType":"full time",
-  "location":"india",
-  "experience":2,
-  "position":3,
-  "companyId":"691eb539b796618b5f830863"
-  }
 
- */

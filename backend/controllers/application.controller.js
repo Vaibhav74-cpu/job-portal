@@ -48,7 +48,11 @@ export const applyJob = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    return res.status(500).json({
+      message: "failed to apply for job",
+      success: false,
+    });
   }
 };
 
@@ -73,12 +77,16 @@ export const getAppliedJobs = async (req, res) => {
         success: false,
       });
     }
+
     return res.status(200).json({
       application,
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    return res.status(400).json({
+      message: "failed to get applied jobs",
+    });
   }
 };
 
@@ -89,6 +97,9 @@ export const getApplicants = async (req, res) => {
     const job = await Job.findById(jobId).populate({
       path: "applications",
       options: { sort: { createdAt: -1 } },
+      populate: {
+        path: "applicant",
+      },
     });
 
     if (!job) {
@@ -103,7 +114,10 @@ export const getApplicants = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    return res.status(400).json({
+      message: "failed to get job applicant",
+    });
   }
 };
 
@@ -130,10 +144,14 @@ export const updateStatus = async (req, res) => {
     await application.save();
 
     return res.status(200).json({
-      application,
       success: true,
+      message: "status updated successfully",
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    return res.status(500).json({
+      message: "failed to update status",
+      success: false,
+    });
   }
 };
