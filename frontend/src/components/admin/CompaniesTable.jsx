@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 function CompaniesTable() {
   const navigate = useNavigate();
   const { companies, searchCompanyByText } = useSelector(
-    (store) => store.company
+    (store) => store.company,
   );
   const [filterCompany, setFilterCompany] = useState(companies);
   useEffect(() => {
@@ -54,7 +54,7 @@ function CompaniesTable() {
           ) : (
             filterCompany.map((company) => (
               <>
-                <TableRow key={company._id}>
+                <TableRow key={company?._id}>
                   <TableCell>
                     <Avatar>
                       <AvatarImage

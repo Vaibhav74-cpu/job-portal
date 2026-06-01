@@ -1,60 +1,252 @@
-import React from "react";
+
+
+
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  BriefcaseIcon,
+  LinkedinIcon,
+  GithubIcon,
+  TwitterIcon,
+  FacebookIcon,
+  InstagramIcon,
+  MailIcon,
+  SendIcon,
+  ArrowRightIcon,
+  MapPinIcon,
+  PhoneIcon,
+} from "lucide-react";
+import { Button } from "../ui/button";
+import { motion } from "framer-motion";
+import { toast } from "sonner";
+
+const quickLinks = [
+  { to: "/", label: "Home" },
+  { to: "/jobs", label: "Browse Jobs" },
+  { to: "/browse", label: "Companies" },
+];
+
+const resources = [
+  { label: "Resume Tips", href: "#" },
+  { label: "Interview Prep", href: "#" },
+  { label: "Career Guidance", href: "#" },
+  { label: "Salary Insights", href: "#" },
+  { label: "FAQs", href: "#" },
+];
+
+const company = [
+  { label: "About Us", href: "#" },
+  { label: "Contact Us", href: "#" },
+  { label: "Privacy Policy", href: "#" },
+  { label: "Terms & Conditions", href: "#" },
+  { label: "Sitemap", href: "#" },
+];
+
+const socials = [
+  { icon: LinkedinIcon, href: "https://linkedin.com", label: "LinkedIn", color: "hover:text-sky-400 hover:bg-sky-500/10 hover:border-sky-500/30" },
+  { icon: GithubIcon, href: "https://github.com", label: "GitHub", color: "hover:text-slate-200 hover:bg-white/10 hover:border-white/20" },
+  { icon: TwitterIcon, href: "https://twitter.com", label: "Twitter", color: "hover:text-sky-400 hover:bg-sky-500/10 hover:border-sky-500/30" },
+  { icon: FacebookIcon, href: "https://facebook.com", label: "Facebook", color: "hover:text-blue-400 hover:bg-blue-500/10 hover:border-blue-500/30" },
+  { icon: InstagramIcon, href: "https://instagram.com", label: "Instagram", color: "hover:text-pink-400 hover:bg-pink-500/10 hover:border-pink-500/30" },
+];
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+function FooterColumn({ title, children, custom }) {
+  return (
+    <motion.div variants={fadeUp} custom={custom} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-40px" }}>
+      <h4 className="text-white font-semibold text-sm tracking-widest uppercase mb-4">{title}</h4>
+      {children}
+    </motion.div>
+  );
+}
 
 function Footer() {
+  const [email, setEmail] = useState("");
+  const currentYear = new Date().getFullYear();
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (!email.trim() || !email.includes("@")) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+    toast.success("You're subscribed! 🎉");
+    setEmail("");
+  };
+
   return (
-    <footer className="border-t border-gray-200 py-8">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          {/* Left Section */}
-          <div className="mb-4 md:mb-0">
-            <h2 className="text-xl font-bold">Job Hunt</h2>
-            <p className="text-sm text-gray-600">
-              © 2026 Your Company. All rights reserved.
+    <footer className="bg-[#080d19] border-t border-white/[0.06] relative overflow-hidden">
+      {/* ambient glow */}
+      <div className="absolute top-0 left-1/4 w-96 h-48 bg-amber-500/5 blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-64 h-40 bg-sky-500/5 blur-[80px] pointer-events-none" />
+
+      {/* ── Main grid ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-16 pb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
+
+          {/* Brand column — 2/5 width on lg */}
+          <motion.div
+            className="lg:col-span-2"
+            variants={fadeUp} custom={0} initial="hidden" whileInView="visible" viewport={{ once: true }}
+          >
+            <Link to="/" className="inline-flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
+                <BriefcaseIcon className="w-4 h-4 text-amber-400" />
+              </div>
+              <span className="text-xl font-extrabold text-white tracking-tight">
+                Job<span className="text-amber-400">Verse</span>
+              </span>
+            </Link>
+
+            <p className="text-slate-400 text-sm leading-relaxed mb-5 max-w-xs">
+              India's #1 job platform connecting ambitious professionals with
+              top-tier companies. Your next great opportunity starts here.
+            </p>
+
+            {/* Contact mini-list */}
+            <ul className="flex flex-col gap-2 mb-6">
+              <li className="flex items-center gap-2 text-xs text-slate-500">
+                <MapPinIcon className="w-3.5 h-3.5 text-amber-400/60 shrink-0" />
+                Bangalore, Karnataka, India
+              </li>
+              <li className="flex items-center gap-2 text-xs text-slate-500">
+                <MailIcon className="w-3.5 h-3.5 text-amber-400/60 shrink-0" />
+                hello@jobVerse.in
+              </li>
+              <li className="flex items-center gap-2 text-xs text-slate-500">
+                <PhoneIcon className="w-3.5 h-3.5 text-amber-400/60 shrink-0" />
+                +91 98765 43210
+              </li>
+            </ul>
+
+            {/* Socials */}
+            <div className="flex items-center gap-2">
+              {socials.map(({ icon: Icon, href, label, color }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className={`w-9 h-9 rounded-xl border border-white/[0.08] bg-white/[0.03] flex items-center justify-center text-slate-500 transition-all duration-200 ${color}`}
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Quick Links */}
+          <FooterColumn title="Quick Links" custom={1}>
+            <ul className="flex flex-col gap-2.5">
+              {quickLinks.map(({ to, label }) => (
+                <li key={to}>
+                  <Link
+                    to={to}
+                    className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-amber-400 transition-colors duration-200 group"
+                  >
+                    <ArrowRightIcon className="w-3 h-3 opacity-0 group-hover:opacity-100 -ml-1 group-hover:ml-0 transition-all duration-200" />
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </FooterColumn>
+
+          {/* Resources */}
+          <FooterColumn title="Resources" custom={2}>
+            <ul className="flex flex-col gap-2.5">
+              {resources.map(({ label, href }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-amber-400 transition-colors duration-200 group"
+                  >
+                    <ArrowRightIcon className="w-3 h-3 opacity-0 group-hover:opacity-100 -ml-1 group-hover:ml-0 transition-all duration-200" />
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </FooterColumn>
+
+          {/* Company */}
+          <FooterColumn title="Company" custom={3}>
+            <ul className="flex flex-col gap-2.5">
+              {company.map(({ label, href }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-amber-400 transition-colors duration-200 group"
+                  >
+                    <ArrowRightIcon className="w-3 h-3 opacity-0 group-hover:opacity-100 -ml-1 group-hover:ml-0 transition-all duration-200" />
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </FooterColumn>
+        </div>
+
+        {/* ── Newsletter ── */}
+        <motion.div
+          variants={fadeUp} custom={4} initial="hidden" whileInView="visible" viewport={{ once: true }}
+          className="mt-12 rounded-2xl bg-gradient-to-r from-amber-500/[0.08] to-sky-500/[0.06] border border-white/[0.06] p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6 justify-between"
+        >
+          <div>
+            <h4 className="text-white font-bold text-lg">Stay ahead of the market</h4>
+            <p className="text-slate-400 text-sm mt-1 max-w-sm">
+              Get weekly job alerts, career tips, and hiring trends — straight to your inbox.
             </p>
           </div>
-
-          {/* Right Section (Social Icons) */}
-          <div className="flex space-x-4 mt-4 md:mt-0">
-            {/* Facebook */}
-            <a
-              href="https://facebook.com"
-              className="hover:text-gray-400"
-              aria-label="Facebook"
-              target="_blank"
-              rel="noopener noreferrer"
+          <form
+            onSubmit={handleSubscribe}
+            className="flex items-center gap-2 w-full sm:w-auto shrink-0"
+          >
+            <div className="flex items-center flex-1 sm:w-64 bg-white/[0.05] border border-white/[0.08] rounded-xl px-3 gap-2 focus-within:border-amber-500/40 transition-colors">
+              <MailIcon className="w-4 h-4 text-slate-500 shrink-0" />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="flex-1 bg-transparent outline-none border-none text-sm text-white placeholder:text-slate-500 py-2.5"
+              />
+            </div>
+            <Button
+              type="submit"
+              className="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-900 font-bold rounded-xl px-4 h-[42px] shadow-lg shadow-amber-500/20 hover:shadow-amber-500/35 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shrink-0"
             >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M22.676 0H1.324C.593 0 0 .592 0 1.324v21.352C0 23.407.593 24 1.324 24h11.495v-9.294H9.691V11.41h3.128V8.797c0-3.1 1.893-4.788 4.659-4.788 1.324 0 2.462.099 2.794.143v3.24h-1.917c-1.504 0-1.796.715-1.796 1.763v2.315h3.587l-.467 3.296h-3.12V24h6.116C23.407 24 24 23.407 24 22.676V1.324C24 .592 23.407 0 22.676 0z" />
-              </svg>
-            </a>
+              <SendIcon className="w-4 h-4" />
+              <span className="hidden sm:inline ml-1.5">Subscribe</span>
+            </Button>
+          </form>
+        </motion.div>
 
-            {/* Twitter */}
-            <a
-              href="https://twitter.com"
-              className="hover:text-gray-400"
-              aria-label="Twitter"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M24 4.557a9.83 9.83 0 0 1-2.828.775A4.932 4.932 0 0 0 23.337 2.1a9.864 9.864 0 0 1-3.127 1.195 4.916 4.916 0 0 0-8.384 4.482A13.94 13.94 0 0 1 1.671 3.149a4.917 4.917 0 0 0 1.523 6.573 4.9 4.9 0 0 1-2.228-.616v.061a4.918 4.918 0 0 0 3.946 4.817 4.903 4.903 0 0 1-2.224.085 4.919 4.919 0 0 0 4.588 3.41A9.867 9.867 0 0 1 0 19.54a13.924 13.924 0 0 0 7.548 2.213C17.093 21.753 22 13.905 22 7.548c0-.21 0-.42-.015-.63A9.935 9.935 0 0 0 24 4.557z" />
-              </svg>
-            </a>
-
-            {/* LinkedIn */}
-            <a
-              href="https://linkedin.com"
-              className="hover:text-gray-400"
-              aria-label="LinkedIn"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20.447 20.452H16.85V16.85c0-.853-.017-1.951-1.188-1.951-1.188 0-1.37.927-1.37 1.886v3.667H10.7V9.5h3.442v1.493h.05c.48-.9 1.65-1.85 3.396-1.85 3.631 0 4.301 2.39 4.301 5.495v5.814h.001zM5.337 8.005a1.998 1.998 0 1 1 0-3.996 1.998 1.998 0 0 1 0 3.996zm1.802 12.447H3.533V9.5h3.606v10.952zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-              </svg>
-            </a>
+        {/* ── Bottom bar ── */}
+        <motion.div
+          variants={fadeUp} custom={5} initial="hidden" whileInView="visible" viewport={{ once: true }}
+          className="mt-10 pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500"
+        >
+          <p>© {currentYear} JobVerse. All rights reserved.</p>
+          <p>
+            Designed &amp; built with ❤️ by the{" "}
+            <span className="text-amber-400/80 font-medium">JobVerse Team</span>
+          </p>
+          <div className="flex items-center gap-4">
+            <a href="#" className="hover:text-slate-300 transition-colors">Privacy</a>
+            <a href="#" className="hover:text-slate-300 transition-colors">Terms</a>
+            <a href="#" className="hover:text-slate-300 transition-colors">Cookies</a>
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );

@@ -10,6 +10,7 @@ import AppliedJobTable from "./AppliedJobTable";
 import UpdateProfileDialog from "./UpdateProfileDialog";
 import { useSelector } from "react-redux";
 import useGetAppliedJobs from "@/hooks/useGetAppliedJobs";
+import Footer from "./shared/Footer";
 
 const skills = [];
 const isResume = true;
@@ -88,6 +89,7 @@ function Profile() {
         </div>
         <UpdateProfileDialog open={open} setOpen={setOpen} />
       </div>
+      <Footer />
     </div>
   );
 }
