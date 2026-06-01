@@ -20,7 +20,7 @@ function useGetAllJobs() {
           dispatch(setAllJobs(res.data.jobs)); //send jobs and save all jobs in redux store globally
         }
       } catch (error) {
-        console.log(error);
+        toast.error(error.response.data.message);
       }
     };
     fetchAllJobs();

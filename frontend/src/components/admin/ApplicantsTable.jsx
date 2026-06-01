@@ -25,7 +25,7 @@ function ApplicantsTable() {
   // const params = useParams();
   const navigate = useNavigate();
   const { applicants } = useSelector((store) => store.application);
-  // console.log(applicants);
+  
 
   const statusHandler = async (status, id) => {
     try {
@@ -35,7 +35,7 @@ function ApplicantsTable() {
         { status },
         { withCredentials: true }
       );
-      // console.log(res);
+      
 
       if (res.data.success) {
         toast.success(res.data.message);

@@ -70,7 +70,7 @@ function JobDescription() {
         { withCredentials: true }
       );
       if (res.data.success) {
-        console.log(res.data.message);
+        
         setIsApplied(true);
         const updatedJobs = {
           ...singleJob,
@@ -80,7 +80,6 @@ function JobDescription() {
         toast.success(res.data.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.message);
     }
   };
@@ -91,7 +90,6 @@ function JobDescription() {
         const res = await axios.get(`${JOB_API_ENDPOINT}/get/${jobId}`, {
           withCredentials: true,
         });
-        console.log(res);
         if (res.data.success) {
           dispatch(setSingleJob(res.data.job));
           setIsApplied(

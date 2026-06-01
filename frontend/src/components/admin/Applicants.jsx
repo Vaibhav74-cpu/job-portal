@@ -20,7 +20,7 @@ function Applicants() {
         );
         dispatch(setAllApplicants(res.data.job));
       } catch (error) {
-        console.log(error);
+        toast.error(error.response.data.message);
       }
     };
     fetchAllApplicants();

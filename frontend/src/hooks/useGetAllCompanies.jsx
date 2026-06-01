@@ -17,7 +17,7 @@ function useGetAllCompanies() {
           dispatch(setCompanies(res.data.companies));
         }
       } catch (error) {
-        console.log(error);
+  
         toast.error(error.response.data.message);
       }
     };

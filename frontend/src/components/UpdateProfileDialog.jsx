@@ -72,12 +72,11 @@ function UpdateProfileDialog({ open, setOpen }) {
       }
     } catch (error) {
       toast.error(error.response.data.message);
-      console.log(error);
     } finally {
       setLoading(false);
     }
     setOpen(false);
-    console.log(input);
+ 
   };
   return (
     <div>
