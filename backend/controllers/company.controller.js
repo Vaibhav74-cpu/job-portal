@@ -34,7 +34,7 @@ export const registerCompany = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    // console.log(error);
+    
     return res.status(400).json({ error });
   }
 };
@@ -55,7 +55,10 @@ export const getCompany = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+      return res.status(500).json({
+        message: "error occur while fetching companies",
+        success: false,
+      });
   }
 };
 
@@ -75,7 +78,10 @@ export const getCompanyById = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({
+      message: "error occur while fetching company",
+      success: false,
+    });
   }
 };
 
@@ -83,9 +89,9 @@ export const getCompanyById = async (req, res) => {
 export const updateCompany = async (req, res) => {
   try {
     const { name, description, website, location } = req.body;
-    // console.log(name, description, website, location);
+   
     const file = req.file;
-    // console.log(file);
+    
 
     const fileUri = getDataUri(file);
     const cloudinaryResponse = await cloudinary.uploader.upload(
@@ -107,7 +113,7 @@ export const updateCompany = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    // console.log(error);
+    
     return res.status(500).json({
       message: "error occur while updating company",
       success: false,

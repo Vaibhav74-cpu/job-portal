@@ -45,16 +45,13 @@ export const register = async (req, res) => {
       message: "Account created successfully",
       success: true,
     });
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 //user login by email password and role
 export const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
-    // console.log(email, password, role);
 
     if (!email || !password || !role) {
       return res.status(400).json({
@@ -139,7 +136,6 @@ export const logout = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, bio, skills } = req.body;
-    // console.log(fullname, email, phoneNumber, bio, skills);
 
     // cloudinary
     const file = req.file;

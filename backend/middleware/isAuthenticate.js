@@ -27,7 +27,10 @@ const isAuthenticated = async (req, res, next) => {
     req.id = decode.userId;
     next();
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({
+      message: "error occur while verifying token",
+      success: false,
+    });
   }
 };
 export default isAuthenticated;

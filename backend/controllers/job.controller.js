@@ -51,7 +51,6 @@ export const postJob = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    // console.log(error);
     return res.status(400).json({
       message: "Failed to creating new job",
     });
